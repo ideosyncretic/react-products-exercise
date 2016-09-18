@@ -3,8 +3,11 @@
 }
 
 .product-filter {
-  background-color: #b3b3b3;
-  height: 100vh;
   display: flex;
+  flex-flow: column;
   flex: 1;
+  background-color: #6fa8dc;
+  border: 1px solid black;
+  height: 100vh;
+  padding: 40px 0;
 }
