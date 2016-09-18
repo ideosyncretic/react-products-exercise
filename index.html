@@ -7,38 +7,71 @@
     <link rel="stylesheet" href="css/browse.css" media="screen" title="no title">
   </head>
   <body>
-    <nav>
-      <a href="/cart.html"><button type="button" name="cart-button">Cart</button></a>
-    </nav>
-    <div class="browse">
-      <div class="product-filter">
-        <form>
-          <ul>
-            <h4>Brands</h4>
-            <li><input id="option" type="checkbox" name="field" value="option">
-            <label for="option">Magnolia</label></li>
-            <li><input id="option" type="checkbox" name="field" value="option">
-            <label for="option">Meiji</label></li>
-          </ul>
-        </form>
-        <form>
-          <ul>
-            <h4>Price</h4>
-            <li><input id="option" type="checkbox" name="field" value="option">
-            <label for="option">0–5</label></li>
-            <li><input id="option" type="checkbox" name="field" value="option">
-            <label for="option">5–10</label></li>
-          </ul>
-        </form>
-      </div>
-      <div class="product-list">
-        <div class="product-list__card">
-          <img src="img/product1.jpg" alt="product-image" />
-          <span class="name">Nutriwell Barley</span>
-          <span class="measurement">1L</span>
-          <span class="price"><strong>$2.25</strong></span>
-          <button type="button" name="add-to-cart-button">Add to Cart</button>
+    <div class="page">
+      <nav>
+        <a href="/cart.html"><button type="button" name="cart-button">Cart</button></a>
+      </nav>
+
+      <div class="main">
+        <div class="product-filter">
+          <form>
+            <ul>
+              <h4>Brands</h4>
+              <li><input id="option" type="checkbox" name="field" value="option">
+              <label for="option">Magnolia</label></li>
+              <li><input id="option" type="checkbox" name="field" value="option">
+              <label for="option">Meiji</label></li>
+            </ul>
+            <ul>
+              <h4>Price</h4>
+              <li><input id="option" type="checkbox" name="field" value="option">
+              <label for="option">0–5</label></li>
+              <li><input id="option" type="checkbox" name="field" value="option">
+              <label for="option">5–10</label></li>
+            </ul>
+          </form>
         </div>
+
+        <div class="product-list">
+
+          <div class="product-list__card">
+            <div class="product-info">
+              <img src="img/product1.jpg" alt="product-image" />
+              <span class="name">NutriWell Barley</span>
+              <span class="measurement">1L</span>
+            </div>
+            <div class="product-cta">
+              <span class="price"><strong>$2.25</strong></span>
+              <button type="button" name="add-to-cart-button">Add to Cart</button>
+            </div>
+          </div>
+
+          <div class="product-list__card">
+            <div class="product-info">
+              <img src="img/product2.jpg" alt="product-image" />
+              <span class="name">NutriWell Lemongrass With Ginger</span>
+              <span class="measurement">1L</span>
+            </div>
+            <div class="product-cta">
+              <span class="price"><strong>$2.35</strong></span>
+              <button type="button" name="add-to-cart-button">Add to Cart</button>
+            </div>
+          </div>
+
+          <div class="product-list__card">
+            <div class="product-info">
+              <img src="img/product3.jpg" alt="product-image" />
+              <span class="name">NutriWell Waterchestnut And Sugar Cane</span>
+              <span class="measurement">500ml</span>
+            </div>
+            <div class="product-cta">
+              <span class="price"><strong>$1.25</strong></span>
+              <button type="button" name="add-to-cart-button">Add to Cart</button>
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </div>
   </body>

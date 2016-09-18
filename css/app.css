@@ -1,10 +1,17 @@
-html, body, li {
+html, body {
   padding: 0;
   margin: 0;
-  text-decoration: none;
-  list-style: none;
   font-family: Helvetica, sans-serif;
   font-size: 18px;
+}
+
+ul {
+  padding-left: 10px;
+}
+
+li {
+  text-decoration: none;
+  list-style: none;
 }
 
 h4 {
@@ -12,12 +19,27 @@ h4 {
   margin: 10px 0;
 }
 
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 nav {
   background-color: #9fc5e8;
   border: 1px solid black;
+  box-sizing: border-box;
   display: flex;
+  flex: 0 auto;
   justify-content: flex-end;
-  height: 50px;
+}
+
+.main {
+  display: flex;
+  flex: 1;
+  box-sizing: border-box;
+  background-color: #cfe2f3;
+  border: 1px solid black;
 }
 
 button {
@@ -36,19 +58,27 @@ button:hover {
 }
 
 .product-list {
-  background-color: #cfe2f3;
-  border: 1px solid black;
   display: flex;
+  flex-flow: wrap;
   flex: 4;
   padding: 10px 40px;
 }
 
 .product-list__card {
   display: flex;
-  flex-flow: column;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
   background: #ffffff;
-  height: 300px;
+  border: 1px solid black;
+  text-align: center;
+  height: 310px;
+  width: 170px;
   margin: 10px;
+}
+
+.product-info, .product-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
