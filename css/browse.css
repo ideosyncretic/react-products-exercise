@@ -3,6 +3,6 @@
   flex-flow: column;
   flex: 1;
   background-color: #6fa8dc;
-  border: 1px solid black;
-  padding: 40px 0;
+  border-right: 1px solid black;
+  padding: 40px 15px;
 }
