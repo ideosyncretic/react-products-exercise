@@ -1,0 +1,10 @@
+.browse {
+  display: flex;
+}
+
+.product-filter {
+  background-color: #b3b3b3;
+  height: 100vh;
+  display: flex;
+  flex: 1;
+}
