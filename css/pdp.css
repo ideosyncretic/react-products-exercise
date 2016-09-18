@@ -1,0 +1,7 @@
+.details {
+  display: flex;
+}
+
+.details div {
+  width: 300px;
+}
