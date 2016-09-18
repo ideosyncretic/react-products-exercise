@@ -1,7 +1,32 @@
-.details {
-  display: flex;
+.product-detail {
+  padding: 20px;
 }
 
-.details div {
+.details {
+  display: flex;
+  flex-direction: row;
+  flex-flow: wrap;
+}
+
+.details-image__image {
+  width: 370px;
+  padding: 10px 0;
+}
+
+.details-text {
   width: 300px;
+  margin-left: 20px;
+}
+
+.details-text h2 {
+  margin: 0;
+}
+
+.details-text__add-to-cart-button {
+  width: 250px;
+  margin: 0;
+}
+
+.details-text__add-to-cart-button h1 {
+  font-weight: normal;
 }
