@@ -1,8 +1,0 @@
-.product-filter {
-  display: flex;
-  flex-flow: column;
-  flex: 1;
-  background-color: #6fa8dc;
-  border-right: 1px solid black;
-  padding: 40px 15px;
-}
