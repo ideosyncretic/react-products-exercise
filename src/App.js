@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Router, Route, IndexRoute, IndexLink, Link, hashHistory} from 'react-router';
 import './App.css';
-import { Browse, ProductFilterBox, ProductFilterList } from './browse'
+import { Browse } from './browse'
 
 class App extends Component {
   render() {
