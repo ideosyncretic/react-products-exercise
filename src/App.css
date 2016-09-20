@@ -23,6 +23,10 @@ h4 {
   margin: 10px 0;
 }
 
+h4:first-letter {
+  text-transform: capitalize;
+}
+
 .page {
   display: flex;
   flex-direction: column;
@@ -63,11 +67,9 @@ button:hover {
   display: none;
 }
 
-.product-filter {
+.filterable-product-list {
   display: flex;
-  flex-flow: column;
-  flex: 1;
-  background-color: #6fa8dc;
-  border-right: 1px solid black;
-  padding: 40px 15px;
+  flex-flow: wrap;
+  flex: 4;
+  padding: 10px 40px;
 }
