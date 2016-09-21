@@ -7,11 +7,16 @@
   padding: 40px 15px;
 }
 
-.product-list {
+.product-list-container {
   display: flex;
   flex-flow: wrap;
   flex: 4;
   padding: 10px 40px;
+}
+
+.product-list {
+  display: flex;
+  flex-flow: wrap;
 }
 
 .product-list__card {

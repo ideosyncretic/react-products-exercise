@@ -8,7 +8,7 @@ const Browse = React.createClass({
     return (
       <div className='main'>
         <ProductFilterContainer />
-        <ProductList data={dataSample} />
+        <ProductListContainer />
       </div>
     )
   }
@@ -45,10 +45,10 @@ class ProductFilterList extends Component {
   }
 
   render() {
-    return <ul>{this.props.productFilters.map(function(productFilter) {
+    return <div className='product-filter-list'>{this.props.productFilters.map(function(productFilter) {
       // render each filter category
       return (
-        <li>
+        <ul>
           <h4>{productFilter.name}</h4>
           {productFilter.values.map(function(value) {
             // render each filter within category
@@ -60,37 +60,65 @@ class ProductFilterList extends Component {
               </li>
             )
           })}
-        </li>
+        </ul>
       )
-    })}</ul>
+    })}</div>
   }
 }
 
-const ProductList = React.createClass({
+class ProductListContainer extends Component {
+  constructor() {
+    super();
+    this.state = { products: [] }
+  }
+
+  componentDidMount() {
+    $.ajax({
+      url: "https://raw.githubusercontent.com/sprazzeus/react-products-exercise/development/src/products.json",
+      dataType: 'json',
+      success: function(data) {
+        this.setState({products: data.products});
+      }.bind(this)
+    });
+  }
+
   render() {
-    var productCard = this.props.data.products.map(function(product) {
-      return (
-        <div className='product-list__card'>
-          <div className='product-info'>
-            <img src={require('./img/' + product.image)} alt='product' />
-            <span className='product-info__name'>{product.name}</span>
-            <span className='product-info__measurement'>{product.measurement}</span>
-          </div>
-          <div className='product-cta'>
-            <span className='product-cta__price'><strong>${product.price}</strong></span>
-            <button className='product-cta__add-to-cart-button'>Add to Cart</button>
-          </div>
-        </div>
-      )
-    })
     return (
-      <div className='product-list'>
-        {productCard}
+      <div className='product-list-container'>
+        <ProductList products={this.state.products} />
       </div>
     )
   }
-})
+}
+
+class ProductList extends Component {
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    return (
+      <div className="product-list">
+        {this.props.products.map(function(product) {
+          return (
+            <div className='product-list__card'>
+              <div className='product-info'>
+                <img src={require('./img/' + product.image)} alt='product' />
+                <span className='product-info__name'>{product.name}</span>
+                <span className='product-info__measurement'>{product.measurement}</span>
+              </div>
+              <div className='product-cta'>
+                <span className='product-cta__price'><strong>${product.price}</strong></span>
+                <button className='product-cta__add-to-cart-button'>Add to Cart</button>
+              </div>
+            </div>
+            )
+          })
+        }
+    </div>
+    )
+  }
+}
 
 
-
-export { Browse, ProductFilterContainer, ProductFilterList, ProductList }
+export { Browse }
