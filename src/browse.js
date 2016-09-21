@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
-import $ from 'jquery';
-import './browse.css';
-import dataSample from './products.json';
+import React, { Component } from 'react'
+import {Link, hashHistory} from 'react-router'
+import $ from 'jquery'
+import './browse.css'
+import Product from './pdp'
+import dataSample from './products.json'
 
-const Browse = React.createClass({
+class Browse extends Component {
   render() {
     return (
       <div className='main'>
@@ -12,7 +14,7 @@ const Browse = React.createClass({
       </div>
     )
   }
-})
+}
 
 class ProductFilterContainer extends Component {
   constructor() {
@@ -101,7 +103,8 @@ class ProductList extends Component {
       <div className="product-list">
         {this.props.products.map(function(product) {
           return (
-            <div className='product-list__card'>
+            <Link to={`/product/${product.image.slice(0,-4)}`}>
+            <div className='product-list__card' key={product.image.slice(0,-4)}>
               <div className='product-info'>
                 <img src={require('./img/' + product.image)} alt='product' />
                 <span className='product-info__name'>{product.name}</span>
@@ -111,7 +114,7 @@ class ProductList extends Component {
                 <span className='product-cta__price'><strong>${product.price}</strong></span>
                 <button className='product-cta__add-to-cart-button'>Add to Cart</button>
               </div>
-            </div>
+            </div></Link>
             )
           })
         }
@@ -119,6 +122,5 @@ class ProductList extends Component {
     )
   }
 }
-
 
 export { Browse }
