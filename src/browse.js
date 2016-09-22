@@ -15,7 +15,7 @@ class Browse extends Component {
   }
 
   /* fetch data */
-  componentDidMount() {
+  componentWillMount() {
     $.ajax({
       url: "https://raw.githubusercontent.com/sprazzeus/react-products-exercise/development/src/products.json",
       dataType: 'json',
