@@ -87,19 +87,23 @@ class ProductListContainer extends Component {
 }
 
 class ProductList extends Component {
-  addItem(event){
-    event.preventDefault()
-    this.props.addToCart()
-  }
 
-  renderProduct(product) {
-    return <Product key={product.image.slice(0,-4)} details={product}/>
+  _addItem(event){
+    event.preventDefault()
+    alert('Item added!')
   }
 
   render() {
+    var self = this
     return (
       <div className="product-list">
-        {this.props.products.map(this.renderProduct)}
+        {this.props.products.map(
+          function (product) {
+            return (
+             <Product key={product.image.slice(0,-4)} details={product} addItem={self._addItem} addToCart={self.props.addToCart}/>
+            )
+          })
+        }
       </div>
     )
   }
@@ -108,6 +112,7 @@ class ProductList extends Component {
 class Product extends Component {
   render() {
     var details = this.props.details
+    var addItem = this.props.addItem
     return (
       <Link to={`/product/${details.image.slice(0,-4)}`}>
       <div className='product-list__card' key={details.image.slice(0,-4)}>
@@ -118,7 +123,7 @@ class Product extends Component {
         </div>
         <div className='product-cta'>
           <span className='product-cta__price'><strong>${details.price}</strong></span>
-          <button className='product-cta__add-to-cart-button'>Add to Cart</button>
+          <button className='product-cta__add-to-cart-button' onClick={addItem}>Add to Cart</button>
         </div>
       </div></Link>
     )

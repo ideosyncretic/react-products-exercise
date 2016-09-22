@@ -13,8 +13,8 @@ class App extends Component {
     }
   }
 
-  addToCart(item){
-    console.log("Item added:" + item)
+  addToCart(){
+    console.log('addToCart ran')
   }
 
   render () {
@@ -26,8 +26,9 @@ class App extends Component {
         </nav>
 
         {React.cloneElement(this.props.children, {
-          cart: this.state.cart, addToCart: this.addToCart.bind(this)
-        } )}
+          cart: this.state.cart,
+          addToCart: this.addToCart.bind(this)
+        })}
       </div>
     )
   }
