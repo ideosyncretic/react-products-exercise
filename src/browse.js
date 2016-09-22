@@ -130,4 +130,4 @@ class Product extends Component {
   }
 }
 
-export { Browse }
+export { Browse, Product }
