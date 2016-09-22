@@ -3,37 +3,52 @@ import {Link} from 'react-router'
 import $ from 'jquery'
 import './browse.css'
 
-class Browse extends Component {
-  render() {
-    return (
-      <div className='main'>
-        <ProductFilterContainer />
-        <ProductListContainer />
-      </div>
-    )
-  }
-}
+/* Browse */
 
-class ProductFilterContainer extends Component {
+class Browse extends Component {
   constructor() {
     super();
-    this.state = { productFilters: [] }
+    this.state = {
+      filters: [],
+      products: []
+    }
   }
 
+  /* fetch data */
   componentDidMount() {
     $.ajax({
       url: "https://raw.githubusercontent.com/sprazzeus/react-products-exercise/development/src/products.json",
       dataType: 'json',
       success: function(data) {
-        this.setState({productFilters: data.filters});
+        this.setState({
+          filters: data.filters,
+          products: data.products
+        });
       }.bind(this)
     });
   }
 
   render() {
     return (
+      <div className='main'>
+        <ProductFilterContainer filters={this.state.filters}/>
+        <ProductListContainer products={this.state.products} />
+      </div>
+    )
+  }
+}
+
+/* Product Filter */
+
+class ProductFilterContainer extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
       <div className='product-filter-container'>
-        <ProductFilterList productFilters={this.state.productFilters} />
+        <ProductFilterList filters={this.props.filters} />
       </div>
     )
   }
@@ -45,13 +60,14 @@ class ProductFilterList extends Component {
   }
 
   render() {
-    return <div className='product-filter-list'>{this.props.productFilters.map(function(productFilter) {
-      // render each filter category
+    return <div className='product-filter-list'>
+    {/* render each filter category */}
+    {this.props.filters.map(function(filter) {
       return (
         <ul>
-          <h4>{productFilter.name}</h4>
-          {productFilter.values.map(function(value) {
-            // render each filter within category
+          <h4>{filter.name}</h4>
+          {/* render each filter within category */}
+          {filter.values.map(function(value) {
             return (
               <li>
                 <label for={'option' + value}>
@@ -66,26 +82,17 @@ class ProductFilterList extends Component {
   }
 }
 
-class ProductListContainer extends Component {
-  constructor() {
-    super();
-    this.state = { products: [] }
-  }
+/* Product List (filterable) */
 
-  componentDidMount() {
-    $.ajax({
-      url: "https://raw.githubusercontent.com/sprazzeus/react-products-exercise/development/src/products.json",
-      dataType: 'json',
-      success: function(data) {
-        this.setState({products: data.products});
-      }.bind(this)
-    });
+class ProductListContainer extends Component {
+  constructor(props) {
+    super(props);
   }
 
   render() {
     return (
       <div className='product-list-container'>
-        <ProductList products={this.state.products} />
+        <ProductList products={this.props.products} />
       </div>
     )
   }
