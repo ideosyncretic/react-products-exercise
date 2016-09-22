@@ -41,10 +41,6 @@ class Browse extends Component {
 /* Product Filter */
 
 class ProductFilterContainer extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div className='product-filter-container'>
@@ -55,22 +51,18 @@ class ProductFilterContainer extends Component {
 }
 
 class ProductFilterList extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     return <div className='product-filter-list'>
     {/* render each filter category */}
     {this.props.filters.map(function(filter) {
       return (
-        <ul>
+        <ul key={filter.name}>
           <h4>{filter.name}</h4>
           {/* render each filter within category */}
           {filter.values.map(function(value) {
             return (
-              <li>
-                <label for={'option' + value}>
+              <li key={value}>
+                <label htmlFor={'option' + value}>
                   <input id={'option' + value} type='checkbox' name='field' value='option'/>{value}
                 </label>
               </li>
@@ -85,10 +77,6 @@ class ProductFilterList extends Component {
 /* Product List (filterable) */
 
 class ProductListContainer extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div className='product-list-container'>
@@ -99,10 +87,6 @@ class ProductListContainer extends Component {
 }
 
 class ProductList extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     return (
       <div className="product-list">

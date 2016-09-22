@@ -10,8 +10,8 @@ class App extends Component {
     return (
       <div className='page'>
         <nav>
-          <IndexLink to ='/' activeClassName='active'><button>Browse</button></IndexLink>
-          <Link to ='/cart' activeClassName='active'><button>Cart</button></Link>
+          <IndexLink to='/' activeClassName='active'><button>Browse</button></IndexLink>
+          <Link to='/cart' activeClassName='active'><button>Cart</button></Link>
         </nav>
 
         {this.props.children}
