@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Router, Route, IndexRoute, IndexLink, Link, hashHistory} from 'react-router'
+import { IndexLink, Link } from 'react-router'
 import './App.css'
 import { Browse } from './browse'
 import { Cart } from './cart'

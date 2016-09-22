@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
-import {Link, hashHistory} from 'react-router'
+import {Link} from 'react-router'
 import $ from 'jquery'
 import './browse.css'
-import Product from './pdp'
-import dataSample from './products.json'
 
 class Browse extends Component {
   render() {

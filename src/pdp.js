@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import {Link, hashHistory} from 'react-router'
 import './pdp.css'
 import dataSample from './products.json'
 
@@ -26,8 +25,6 @@ class Product extends Component {
     var result = dataSample.products.find(function(product) {
       return ( product.image === (currentProduct + '.jpg') )
     })
-    console.log('CURRENT PRODUCT NAME: ' + result.name)
-    console.log(this.state.name)
     this.setState({
       name: result.name,
       price: result.price,
