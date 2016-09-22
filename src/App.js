@@ -6,6 +6,17 @@ import { Cart } from './cart'
 import { Product } from './pdp'
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      cart: [],
+    }
+  }
+
+  addToCart(item){
+    console.log("Item added:" + item)
+  }
+
   render () {
     return (
       <div className='page'>
@@ -14,7 +25,9 @@ class App extends Component {
           <Link to='/cart' activeClassName='active'><button>Cart</button></Link>
         </nav>
 
-        {this.props.children}
+        {React.cloneElement(this.props.children, {
+          cart: this.state.cart, addToCart: this.addToCart.bind(this)
+        } )}
       </div>
     )
   }

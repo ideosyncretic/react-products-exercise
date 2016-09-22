@@ -6,8 +6,8 @@ import './browse.css'
 /* Browse */
 
 class Browse extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       filters: [],
       products: []
@@ -32,7 +32,7 @@ class Browse extends Component {
     return (
       <div className='main'>
         <ProductFilterContainer filters={this.state.filters}/>
-        <ProductListContainer products={this.state.products} />
+        <ProductListContainer products={this.state.products} addToCart={this.props.addToCart} />
       </div>
     )
   }
@@ -80,34 +80,48 @@ class ProductListContainer extends Component {
   render() {
     return (
       <div className='product-list-container'>
-        <ProductList products={this.props.products} />
+        <ProductList products={this.props.products} addToCart={this.props.addToCart}/>
       </div>
     )
   }
 }
 
 class ProductList extends Component {
+  addItem(event){
+    event.preventDefault()
+    this.props.addToCart()
+  }
+
+  renderProduct(product) {
+    return <Product key={product.image.slice(0,-4)} details={product}/>
+  }
+
   render() {
+    console.log(this)
     return (
       <div className="product-list">
-        {this.props.products.map(function(product) {
-          return (
-            <Link to={`/product/${product.image.slice(0,-4)}`}>
-            <div className='product-list__card' key={product.image.slice(0,-4)}>
-              <div className='product-info'>
-                <img src={require('./img/' + product.image)} alt='product' />
-                <span className='product-info__name'>{product.name}</span>
-                <span className='product-info__measurement'>{product.measurement}</span>
-              </div>
-              <div className='product-cta'>
-                <span className='product-cta__price'><strong>${product.price}</strong></span>
-                <button className='product-cta__add-to-cart-button'>Add to Cart</button>
-              </div>
-            </div></Link>
-            )
-          })
-        }
-    </div>
+        {this.props.products.map(this.renderProduct)}
+      </div>
+    )
+  }
+}
+
+class Product extends Component {
+  render() {
+    var details = this.props.details
+    return (
+      <Link to={`/product/${details.image.slice(0,-4)}`}>
+      <div className='product-list__card' key={details.image.slice(0,-4)}>
+        <div className='product-info'>
+          <img src={require('./img/' + details.image)} alt='product' />
+          <span className='product-info__name'>{details.name}</span>
+          <span className='product-info__measurement'>{details.measurement}</span>
+        </div>
+        <div className='product-cta'>
+          <span className='product-cta__price'><strong>${details.price}</strong></span>
+          <button className='product-cta__add-to-cart-button'>Add to Cart</button>
+        </div>
+      </div></Link>
     )
   }
 }
