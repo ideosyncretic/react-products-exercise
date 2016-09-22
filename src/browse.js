@@ -97,7 +97,6 @@ class ProductList extends Component {
   }
 
   render() {
-    console.log(this)
     return (
       <div className="product-list">
         {this.props.products.map(this.renderProduct)}
