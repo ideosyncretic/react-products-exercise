@@ -14,11 +14,10 @@ class App extends Component {
     this.addToCart = this.addToCart.bind(this)
   }
 
-  addToCart(){
-    console.log('addToCart ran')
-    this.state.cart = "HI"
-    this.setState({cart: this.state.cart})
-    console.log(this.state.cart)
+  addToCart(itemAdded){
+    // this.setState({cart: itemAdded})
+    // console.log(this.state.cart)
+    console.log('addToCart ran!')
   }
 
   render () {
