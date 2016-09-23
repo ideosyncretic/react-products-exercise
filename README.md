@@ -1,10 +1,23 @@
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+## This project is deployed at [http://angelco.co/react-products-exercise/](http://angelco.co/react-products-exercise/)
 
-This project is deployed [here](http://angelco.co/react-products-exercise/).
+### How to run the app locally
 
-## How to run the app locally
+#### `git clone https://github.com/sprazzeus/react-products-exercise.git`
+#### `cd react-products-exercise`
+#### `npm install`
+#### `npm start`
+#### View on `http://localhost:3000`
+___
 
-### `git clone https://github.com/sprazzeus/react-products-exercise.git`
-### `cd react-products-exercise`
-### `npm install`
-### `npm start`
+### Details
+This project was made with [Create React App](https://github.com/facebookincubator/create-react-app) and uses [react-router](https://github.com/ReactTraining/react-router).
+
+___
+
+### Pending Issues
+- **Add to cart and filtering functionality**. Looking into solving with Redux.
+- **propType validation** to be added.
+- Hacky workaround for absent **Product IDs**.
+- **Repeat data** in different capitalization.
+- **Ugly links**. Using GitHub Pages and server does not allow for browserHistory's methods, only hashHistory.
+
