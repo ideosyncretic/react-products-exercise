@@ -5,7 +5,8 @@ import dataSample from './products.json'
 class Product extends Component {
   constructor(props) {
       super(props);
-      this._findProduct = this._findProduct.bind(this);
+      this._findProduct = this._findProduct.bind(this)
+      this.handleClick = this.handleClick.bind(this)
       this.state = {
         productId: this.props.params.productId,
         name: '',
@@ -34,6 +35,12 @@ class Product extends Component {
     })
   }
 
+  handleClick(event){
+    event.preventDefault()
+    alert('handleClick ran!')
+    this.props.addToCart(this.state)
+  }
+
   render() {
     return (
       <div className="main">
@@ -51,7 +58,7 @@ class Product extends Component {
               <p className="details-text__desc">
                 {this.state.desc}
               </p>
-              <button className="details-text__add-to-cart-button"><h1>Add To Cart</h1></button>
+              <button className="details-text__add-to-cart-button" onClick={this.handleClick}><h1>Add To Cart</h1></button>
             </div>
           </div>
 
