@@ -88,9 +88,15 @@ class ProductListContainer extends Component {
 
 class ProductList extends Component {
 
+  constructor(props) {
+    super(props)
+    this._addItem = this._addItem.bind(this)
+  }
+
   _addItem(event){
     event.preventDefault()
     alert('Item added!')
+    this.props.addToCart()
   }
 
   render() {
