@@ -15,8 +15,8 @@ class App extends Component {
   }
 
   addToCart(itemAdded){
-    // this.setState({cart: itemAdded})
-    // console.log(this.state.cart)
+    this.setState((state) => ({ cart: state.cart.concat( itemAdded )}))
+    console.log(this.state.cart)
     console.log('addToCart ran!')
   }
 
