@@ -9,7 +9,7 @@ class Browse extends Component {
   render() {
     return (
       <div className='main'>
-        <ProductFilterContainer filters={this.props.filters}/>
+        <FilterListContainer filters={this.props.filters}/>
         <ProductListContainer products={this.props.products} addToCart={this.props.addToCart} />
       </div>
     )
@@ -18,37 +18,46 @@ class Browse extends Component {
 
 /* Product Filter */
 
-class ProductFilterContainer extends Component {
+class FilterListContainer extends Component {
   render() {
     return (
       <div className='product-filter-container'>
-        <ProductFilterList filters={this.props.filters} />
+        <FilterList filters={this.props.filters} />
       </div>
     )
   }
 }
 
-class ProductFilterList extends Component {
+class FilterList extends Component {
   render() {
     return <div className='product-filter-list'>
     {/* render each filter category */}
     {this.props.filters.map(function(filter) {
       return (
-        <ul key={filter.name}>
-          <h4>{filter.name}</h4>
-          {/* render each filter within category */}
-          {filter.values.map(function(value) {
-            return (
-              <li key={value}>
-                <label htmlFor={'option' + value}>
-                  <input id={'option' + value} type='checkbox' name='field' value='option'/>{value}
-                </label>
-              </li>
-            )
-          })}
-        </ul>
+        <Filter key={filter.name} filter={filter}/>
       )
     })}</div>
+  }
+}
+
+class Filter extends Component {
+  render() {
+    var filter = this.props.filter
+    return (
+      <ul key={filter.name}>
+        <h4>{filter.name}</h4>
+        {/* render each filter within category */}
+        {filter.values.map(function(value) {
+          return (
+            <li key={value}>
+              <label htmlFor={value}>
+                <input id={value} type='checkbox' name='field' value={value}/>{value}
+              </label>
+            </li>
+          )
+        })}
+      </ul>
+    )
   }
 }
 
@@ -91,7 +100,6 @@ class Product extends Component {
 
   handleClick(event){
     event.preventDefault()
-    alert('handleClick ran!')
     this.props.addToCart(this.props.details)
   }
 
