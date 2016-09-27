@@ -10,7 +10,7 @@ class Cart extends Component {
         {this.props.cart.map(
           function (product) {
             return (
-             <Product key={product.image.slice(0,-4)} details={product}/>
+             <Product key={product.image.slice(0,-4)} product={product}/>
             )
           }
         )}

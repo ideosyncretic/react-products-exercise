@@ -82,7 +82,7 @@ class ProductList extends Component {
         {this.props.products.map(
           function (product) {
             return (
-             <Product key={product.image.slice(0,-4)} details={product} addToCart={self.props.addToCart}/>
+             <Product key={product.image.slice(0,-4)} product={product} addToCart={self.props.addToCart}/>
             )
           })
         }
@@ -100,22 +100,22 @@ class Product extends Component {
 
   handleClick(event){
     event.preventDefault()
-    this.props.addToCart(this.props.details)
+    this.props.addToCart(this.props.product)
   }
 
   render() {
-    var details = this.props.details
+    var product = this.props.product
     var handleClick = this.handleClick
     return (
-      <div className='product-list__card' key={details.image.slice(0,-4)}>
-        <Link to={`/product/${details.image.slice(0,-4)}`}>
+      <div className='product-list__card' key={product.image.slice(0,-4)}>
+        <Link to={`/product/${product.image.slice(0,-4)}`}>
         <div className='product-info'>
-          <img src={require('./img/' + details.image)} alt='product' />
-          <span className='product-info__name'>{details.name}</span>
-          <span className='product-info__measurement'>{details.measurement}</span>
+          <img src={require('./img/' + product.image)} alt='product' />
+          <span className='product-info__name'>{product.name}</span>
+          <span className='product-info__measurement'>{product.measurement}</span>
         </div>
         <div className='product-cta'>
-          <span className='product-cta__price'><strong>${details.price}</strong></span>
+          <span className='product-cta__price'><strong>${product.price}</strong></span>
           <button className='product-cta__add-to-cart-button' onClick={handleClick}>Add to Cart</button>
         </div></Link>
       </div>
