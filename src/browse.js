@@ -6,10 +6,23 @@ import './browse.css'
 
 class Browse extends Component {
 
+  constructor() {
+    super()
+    this.state = {
+      activeFilters: []
+    }
+    this.setFilters = this.setFilters.bind(this)
+  }
+
+  setFilters(filters) {
+    this.setState({activeFilters: filters})
+    console.log('Final State:' + this.state.activeFilters)
+  }
+
   render() {
     return (
       <div className='main'>
-        <FilterListContainer filters={this.props.filters}/>
+        <FilterListContainer filters={this.props.filters} activeFilters={this.state.activeFilters} setFilters={this.setFilters}/>
         <ProductListContainer products={this.props.products} addToCart={this.props.addToCart} />
       </div>
     )
@@ -22,7 +35,7 @@ class FilterListContainer extends Component {
   render() {
     return (
       <div className='product-filter-container'>
-        <FilterList filters={this.props.filters} />
+        <FilterList filters={this.props.filters} activeFilters={this.props.activeFilters} setFilters={this.props.setFilters}/>
       </div>
     )
   }
@@ -30,11 +43,12 @@ class FilterListContainer extends Component {
 
 class FilterList extends Component {
   render() {
+    var self = this
     return <div className='product-filter-list'>
     {/* render each filter category */}
     {this.props.filters.map(function(filter) {
       return (
-        <Filter key={filter.name} category={filter.name} filter={filter}/>
+        <Filter key={filter.name} category={filter.name} filter={filter} activeFilters={self.props.activeFilters} setFilters={self.props.setFilters}/>
       )
     })}</div>
   }
@@ -44,26 +58,21 @@ class Filter extends Component {
 
   constructor() {
     super()
-    this.state = {
-      checked: []
-    }
     this.handleChange = this.handleChange.bind(this)
   }
 
   handleChange(event) {
-    var checked = this.state.checked
+    var activeFilters = this.props.activeFilters
+    console.log('Old state: ' + activeFilters)
     var filterValue = event.target.value
     var isChecked = event.target.checked
     if (isChecked) {
-      checked.push(filterValue)
-      this.setState({checked: checked})
+      activeFilters.push(filterValue)
     }
     else if (!isChecked) {
-      checked.splice(checked.indexOf(filterValue), 1)
-      this.setState({checked: checked})
+      activeFilters.splice(activeFilters.indexOf(filterValue), 1)
     }
-    this.setState({})
-    console.log('Final: ' + checked)
+    this.props.setFilters(activeFilters)
   }
 
   render() {
