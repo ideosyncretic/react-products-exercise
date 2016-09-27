@@ -34,15 +34,41 @@ class FilterList extends Component {
     {/* render each filter category */}
     {this.props.filters.map(function(filter) {
       return (
-        <Filter key={filter.name} filter={filter}/>
+        <Filter key={filter.name} category={filter.name} filter={filter}/>
       )
     })}</div>
   }
 }
 
 class Filter extends Component {
+
+  constructor() {
+    super()
+    this.state = {
+      checked: []
+    }
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleChange(event) {
+    var checked = this.state.checked
+    var filterValue = event.target.value
+    var isChecked = event.target.checked
+    if (isChecked) {
+      checked.push(filterValue)
+      this.setState({checked: checked})
+    }
+    else if (!isChecked) {
+      checked.splice(checked.indexOf(filterValue), 1)
+      this.setState({checked: checked})
+    }
+    this.setState({})
+    console.log('Final: ' + checked)
+  }
+
   render() {
     var filter = this.props.filter
+    var handleChange = this.handleChange
     return (
       <ul key={filter.name}>
         <h4>{filter.name}</h4>
@@ -51,7 +77,7 @@ class Filter extends Component {
           return (
             <li key={value}>
               <label htmlFor={value}>
-                <input id={value} type='checkbox' name='field' value={value}/>{value}
+                <input id={value} type='checkbox' name='field' value={value} onChange={handleChange}/>{value}
               </label>
             </li>
           )

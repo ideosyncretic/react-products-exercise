@@ -8,7 +8,7 @@ import { Product } from './pdp'
 
 class App extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
       filters: [],
       products: [],
