@@ -1,38 +1,16 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router'
-import $ from 'jquery'
 import './browse.css'
 
 /* Browse */
 
 class Browse extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      filters: [],
-      products: []
-    }
-  }
-
-  /* fetch data */
-  componentWillMount() {
-    $.ajax({
-      url: "https://raw.githubusercontent.com/sprazzeus/react-products-exercise/development/src/products.json",
-      dataType: 'json',
-      success: function(data) {
-        this.setState({
-          filters: data.filters,
-          products: data.products
-        });
-      }.bind(this)
-    });
-  }
 
   render() {
     return (
       <div className='main'>
-        <ProductFilterContainer filters={this.state.filters}/>
-        <ProductListContainer products={this.state.products} addToCart={this.props.addToCart} />
+        <ProductFilterContainer filters={this.props.filters}/>
+        <ProductListContainer products={this.props.products} addToCart={this.props.addToCart} />
       </div>
     )
   }
