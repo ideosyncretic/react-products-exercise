@@ -99,8 +99,8 @@ class Product extends Component {
     var details = this.props.details
     var handleClick = this.handleClick
     return (
-      <Link to={`/product/${details.image.slice(0,-4)}`}>
       <div className='product-list__card' key={details.image.slice(0,-4)}>
+        <Link to={`/product/${details.image.slice(0,-4)}`}>
         <div className='product-info'>
           <img src={require('./img/' + details.image)} alt='product' />
           <span className='product-info__name'>{details.name}</span>
@@ -109,8 +109,8 @@ class Product extends Component {
         <div className='product-cta'>
           <span className='product-cta__price'><strong>${details.price}</strong></span>
           <button className='product-cta__add-to-cart-button' onClick={handleClick}>Add to Cart</button>
-        </div>
-      </div></Link>
+        </div></Link>
+      </div>
     )
   }
 }
