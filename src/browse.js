@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router'
-var update = require('react-addons-update');
+import update from 'react-addons-update'
 import './browse.css'
 
 /* Browse */
@@ -10,7 +10,7 @@ class Browse extends Component {
   constructor() {
     super()
     this.state = {
-      activeFilters: {}
+      activeFilters: []
     }
     this.setFilters = this.setFilters.bind(this)
     this.addFilterCategory = this.addFilterCategory.bind(this)
@@ -18,12 +18,7 @@ class Browse extends Component {
 
   addFilterCategory(filterCategory) {
     console.log('Add filter category running ' + filterCategory)
-    var finalFilterCategories = update(this.state.activeFilters, {$merge:
-      {[filterCategory]: ['Test']}
-    })
-    this.setState({
-      activeFilters: {finalFilterCategories}
-    })
+
   }
 
   setFilters(filters) {
@@ -159,17 +154,20 @@ class Product extends Component {
     var product = this.props.product
     var handleClick = this.handleClick
     return (
-      <div className='product-list__card' key={product.image.slice(0,-4)}>
+      <div key={product.image.slice(0,-4)}>
         <Link to={`/product/${product.image.slice(0,-4)}`}>
-        <div className='product-info'>
-          <img src={require('./img/' + product.image)} alt='product' />
-          <span className='product-info__name'>{product.name}</span>
-          <span className='product-info__measurement'>{product.measurement}</span>
+        <div className='product-list__card'>
+          <div className='product-info'>
+            <img src={require('./img/' + product.image)} alt='product' />
+            <span className='product-info__name'>{product.name}</span>
+            <span className='product-info__measurement'>{product.measurement}</span>
+          </div>
+          <div className='product-cta'>
+            <span className='product-cta__price'><strong>${product.price}</strong></span>
+            <button className='product-cta__add-to-cart-button' onClick={handleClick}>Add to Cart</button>
+          </div>
         </div>
-        <div className='product-cta'>
-          <span className='product-cta__price'><strong>${product.price}</strong></span>
-          <button className='product-cta__add-to-cart-button' onClick={handleClick}>Add to Cart</button>
-        </div></Link>
+        </Link>
       </div>
     )
   }
