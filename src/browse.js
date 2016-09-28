@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router'
+var update = require('react-addons-update');
 import './browse.css'
 
 /* Browse */
@@ -9,20 +10,31 @@ class Browse extends Component {
   constructor() {
     super()
     this.state = {
-      activeFilters: []
+      activeFilters: {}
     }
     this.setFilters = this.setFilters.bind(this)
+    this.addFilterCategory = this.addFilterCategory.bind(this)
+  }
+
+  addFilterCategory(filterCategory) {
+    console.log('Add filter category running ' + filterCategory)
+    var finalFilterCategories = update(this.state.activeFilters, {$merge:
+      {[filterCategory]: ['Test']}
+    })
+    this.setState({
+      activeFilters: {finalFilterCategories}
+    })
   }
 
   setFilters(filters) {
     this.setState({activeFilters: filters})
-    console.log('Final State:' + this.state.activeFilters)
+    console.log('active filters: ' + this.state.activeFilters)
   }
 
   render() {
     return (
       <div className='main'>
-        <FilterListContainer filters={this.props.filters} activeFilters={this.state.activeFilters} setFilters={this.setFilters}/>
+        <FilterListContainer filters={this.props.filters} addFilterCategory={this.addFilterCategory} activeFilters={this.state.activeFilters} setFilters={this.setFilters}/>
         <ProductListContainer products={this.props.products} addToCart={this.props.addToCart} />
       </div>
     )
@@ -35,7 +47,7 @@ class FilterListContainer extends Component {
   render() {
     return (
       <div className='product-filter-container'>
-        <FilterList filters={this.props.filters} activeFilters={this.props.activeFilters} setFilters={this.props.setFilters}/>
+        <FilterList filters={this.props.filters} addFilterCategory={this.props.addFilterCategory} activeFilters={this.props.activeFilters} setFilters={this.props.setFilters}/>
       </div>
     )
   }
@@ -48,7 +60,7 @@ class FilterList extends Component {
     {/* render each filter category */}
     {this.props.filters.map(function(filter) {
       return (
-        <Filter key={filter.name} category={filter.name} filter={filter} activeFilters={self.props.activeFilters} setFilters={self.props.setFilters}/>
+        <Filter key={filter.name} category={filter.name} filter={filter} addFilterCategory={self.props.addFilterCategory} activeFilters={self.props.activeFilters} setFilters={self.props.setFilters}/>
       )
     })}</div>
   }
@@ -63,7 +75,6 @@ class Filter extends Component {
 
   handleChange(event) {
     var activeFilters = this.props.activeFilters
-    console.log('Old state: ' + activeFilters)
     var filterValue = event.target.value
     var isChecked = event.target.checked
     if (isChecked) {
@@ -73,6 +84,12 @@ class Filter extends Component {
       activeFilters.splice(activeFilters.indexOf(filterValue), 1)
     }
     this.props.setFilters(activeFilters)
+    console.log(this.props.category)
+  }
+
+  componentWillMount() {
+    var filterCategory = this.props.category
+    this.props.addFilterCategory(filterCategory)
   }
 
   render() {
