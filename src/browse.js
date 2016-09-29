@@ -26,7 +26,9 @@ class Browse extends Component {
     return (
       <div className='main'>
         <FilterListContainer filters={this.props.filters} brand={this.state.brand} price={this.state.price} setFilters={this.setFilters}/>
-        <ProductListContainer products={this.props.products} addToCart={this.props.addToCart} />
+        <ProductListContainer products={this.props.products}
+        brand={this.state.brand} price={this.state.price}
+        addToCart={this.props.addToCart} />
       </div>
     )
   }
@@ -106,7 +108,8 @@ class ProductListContainer extends Component {
   render() {
     return (
       <div className='product-list-container'>
-        <ProductList products={this.props.products} addToCart={this.props.addToCart}/>
+        <ProductList products={this.props.products}
+          brand={this.props.brand} price={this.props.price} addToCart={this.props.addToCart}/>
       </div>
     )
   }
@@ -121,16 +124,40 @@ class ProductList extends Component {
 
   filterProducts() {
     var self = this
-    console.log(this.props.products)
+    var products = this.props.products
+
+    // loop through products, create new array of relevant products
+
     return (
-    this.props.products.map(
-      function (product) {
-        return (
-         <Product key={product.image.slice(0,-4)} product={product} addToCart={self.props.addToCart}/>
-        )
-      }
-    ))
-    console.log('showAll() ran!')
+      products.map(
+        function(product) {
+          // no filters
+          if (!self.props.brand[0] && !self.props.price[0]) {
+            return <Product key={product.image.slice(0,-4)} product={product} addToCart={self.props.addToCart}/>
+          }
+          // with brand filter only
+          if (self.props.brand.indexOf(product.brand) !== -1 && !self.props.price[0]) {
+            return <Product key={product.image.slice(0,-4)} product={product} addToCart={self.props.addToCart}/>
+          }
+          // with price filter only
+          if (self.props.price[0]) {
+            // map through price filters
+            return (
+              self.props.price.map(
+                function(price) {
+                  var range = price.split('-')
+                  console.log(range)
+                  // return product with price in range
+                  if (range[0] < product.price && product.price < range[1]) {
+                    return <Product key={product.image.slice(0,-4)} product={product} addToCart={self.props.addToCart}/>
+                  }
+                }
+              )
+            )
+          }
+        }
+      )
+    )
   }
 
   render() {
