@@ -140,7 +140,7 @@ class ProductList extends Component {
             return <Product key={product.image.slice(0,-4)} product={product} addToCart={self.props.addToCart}/>
           }
           // with price filter only
-          if (self.props.price[0]) {
+          if (self.props.price[0] && !self.props.brand[0]) {
             // map through price filters
             return (
               self.props.price.map(
@@ -154,6 +154,25 @@ class ProductList extends Component {
                 }
               )
             )
+          }
+          // both brand and price filters applied
+          if (self.props.brand[0] && self.props.price[0]) {
+            console.log("Double filters activated!")
+            // filter by brand
+            if (self.props.brand.indexOf(product.brand) !== -1) {
+              // filter by price
+              return (
+                self.props.price.map(
+                  function(price) {
+                    var range = price.split('-')
+                    // return product with price in range
+                    if (range[0] < product.price && product.price < range[1]) {
+                      return <Product key={product.image.slice(0,-4)} product={product} addToCart={self.props.addToCart}/>
+                    }
+                  }
+                )
+              )
+            }
           }
         }
       )
