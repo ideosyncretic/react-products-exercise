@@ -20,6 +20,10 @@
 }
 
 .product {
+  display: flex
+}
+
+.product-content {
   display: flex;
   flex-direction: column;
   align-items: center;

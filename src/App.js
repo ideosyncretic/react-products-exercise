@@ -15,12 +15,30 @@ class App extends Component {
       cart: []
     }
     this.addToCart = this.addToCart.bind(this)
+    this.removeFromCart = this.removeFromCart.bind(this)
   }
 
   addToCart(itemAdded){
     this.setState((state) => ({ cart: state.cart.concat( itemAdded )}))
     console.log(this.state.cart)
-    console.log('addToCart ran!')
+    console.log(itemAdded.name + ' added to cart!')
+  }
+
+  removeFromCart(itemRemoved){
+    var oldCart = this.state.cart // array
+    var newCart = this.state.cart.splice(0) // cloned array
+    var itemIndex = oldCart.findIndex(findItem)
+
+    function findItem (item) {
+    	if (item.name === itemRemoved.name) {
+    		return item
+    	}
+    }
+
+    newCart.splice(itemIndex, 1) // remove item from clone array
+
+    this.setState({cart: newCart}) // submit new cart array
+    console.log(itemRemoved.name + ' removed from cart!')
   }
 
   componentWillMount() {
@@ -48,7 +66,8 @@ class App extends Component {
           filters: this.state.filters,
           products: this.state.products,
           cart: this.state.cart,
-          addToCart: this.addToCart.bind(this)
+          addToCart: this.addToCart,
+          removeFromCart: this.removeFromCart
         })}
       </div>
     )

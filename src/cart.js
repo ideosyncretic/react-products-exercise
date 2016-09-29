@@ -4,13 +4,12 @@ import {Product} from './browse'
 class Cart extends Component {
 
   render () {
-    console.log('Cart props' + this.props)
     return (
       <div className='main'>
         {this.props.cart.map(
-          function (product) {
+          product => {
             return (
-             <Product key={product.image.slice(0,-4)} product={product}/>
+             <Product key={product.image.slice(0,-4)} product={product} cart={this.props.cart} addToCart={this.props.addToCart} removeFromCart={this.props.removeFromCart}/>
             )
           }
         )}
