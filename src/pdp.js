@@ -23,7 +23,7 @@ class ProductDetail extends Component {
 
   _findProduct() {
     var currentProduct = this.state.productId
-    var result = dataSample.products.find(function(product) {
+    var result = this.props.products.find(function(product) {
       return ( product.image === (currentProduct + '.jpg') )
     })
     this.setState({
@@ -34,11 +34,6 @@ class ProductDetail extends Component {
       image: result.image
     })
   }
-
-  // handleClick(event){
-  //   event.preventDefault()
-  //   this.props.addToCart(this.state)
-  // }
 
   handleClickAdd(e, product){
     e.preventDefault()

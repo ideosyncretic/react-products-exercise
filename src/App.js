@@ -18,12 +18,14 @@ class App extends Component {
     this.removeFromCart = this.removeFromCart.bind(this)
   }
 
+  // takes a product item object
   addToCart(itemAdded){
     this.setState((state) => ({ cart: state.cart.concat( itemAdded )}))
     console.log(this.state.cart)
     console.log(itemAdded.name + ' added to cart!')
   }
 
+  // takes a product item object
   removeFromCart(itemRemoved){
     var oldCart = this.state.cart // array
     var newCart = this.state.cart.splice(0) // cloned array
