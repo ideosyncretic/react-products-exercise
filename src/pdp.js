@@ -37,7 +37,6 @@ class Product extends Component {
 
   handleClick(event){
     event.preventDefault()
-    alert('handleClick ran!')
     this.props.addToCart(this.state)
   }
 

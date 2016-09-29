@@ -114,17 +114,30 @@ class ProductListContainer extends Component {
 
 class ProductList extends Component {
 
-  render() {
+  constructor() {
+    super()
+    this.filterProducts = this.filterProducts.bind(this)
+  }
+
+  filterProducts() {
     var self = this
+    console.log(this.props.products)
+    return (
+    this.props.products.map(
+      function (product) {
+        return (
+         <Product key={product.image.slice(0,-4)} product={product} addToCart={self.props.addToCart}/>
+        )
+      }
+    ))
+    console.log('showAll() ran!')
+  }
+
+  render() {
     return (
       <div className="product-list">
-        {this.props.products.map(
-          function (product) {
-            return (
-             <Product key={product.image.slice(0,-4)} product={product} addToCart={self.props.addToCart}/>
-            )
-          })
-        }
+
+        {this.filterProducts()}
       </div>
     )
   }
