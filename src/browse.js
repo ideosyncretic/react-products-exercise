@@ -14,35 +14,8 @@ class Browse extends Component {
       price: []
     }
     this.setFilters = this.setFilters.bind(this)
-    // this.addFilterCategory = this.addFilterCategory.bind(this)
   }
 
-  // // initiates filter category arrays to activeFilters object
-  // addFilterCategory(filterCategory) {
-  //   var activeFilters = this.state.activeFilters
-  //   var existingCategory = Object.keys(activeFilters)[0]
-  //   // initiate first filter category
-  //  if (!existingCategory) {
-  //    console.log("I'm first! " + filterCategory)
-  //     this.setState({
-  //       activeFilters: {
-  //         [filterCategory] : []
-  //       }
-  //     })
-  //     console.log("My value " + activeFilters[filterCategory])
-  //   }
-  //   // find out first existing filter category to merge with
-  //   else if (existingCategory) {
-  //     console.log("I was first! " + existingCategory)
-  //     var updatedActiveFilters = update(activeFilters, {$merge: {
-  //       [existingCategory]: activeFilters[existingCategory],
-  //       [filterCategory]: []}
-  //     })
-  //     this.setState({activeFilters: updatedActiveFilters})
-  //   }
-  // }
-
-  // add active filters to relevant category in activeFilters
   setFilters(category, filters) {
     this.setState({ [category] : filters
     })
@@ -91,12 +64,6 @@ class Filter extends Component {
     super()
     this.handleChange = this.handleChange.bind(this)
   }
-
-  // // initiates filter categories in activeFilters state
-  // componentWillMount() {
-  //   var filterCategory = this.props.category
-  //   this.props.addFilterCategory(filterCategory)
-  // }
 
   handleChange(event) {
     var category = this.props.category
