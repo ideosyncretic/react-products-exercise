@@ -4,7 +4,7 @@ import $ from 'jquery'
 import './App.css'
 import { Browse } from './browse'
 import { Cart } from './cart'
-import { Product } from './pdp'
+import { ProductDetail } from './pdp'
 
 class App extends Component {
   constructor() {
@@ -74,4 +74,4 @@ class App extends Component {
   }
 }
 
-export {App, Browse, Cart, Product};
+export {App, Browse, Cart, ProductDetail};

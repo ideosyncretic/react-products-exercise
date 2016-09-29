@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import './pdp.css'
 import dataSample from './products.json'
 
-class Product extends Component {
+class ProductDetail extends Component {
   constructor(props) {
       super(props);
       this._findProduct = this._findProduct.bind(this)
-      this.handleClick = this.handleClick.bind(this)
+      this.cartAction = this.cartAction.bind(this)
       this.state = {
         productId: this.props.params.productId,
         name: '',
@@ -35,12 +35,30 @@ class Product extends Component {
     })
   }
 
-  handleClick(event){
-    event.preventDefault()
-    this.props.addToCart(this.state)
+  // handleClick(event){
+  //   event.preventDefault()
+  //   this.props.addToCart(this.state)
+  // }
+
+  handleClickAdd(e, product){
+    e.preventDefault()
+    this.props.addToCart(product)
+  }
+
+  handleClickRemove(e, product){
+    e.preventDefault()
+    this.props.removeFromCart(product)
+  }
+
+  cartAction(product) {
+    if (this.props.cart.indexOf(product) > -1) {
+      return <button className='details-text__add-to-cart-button' onClick={e => this.handleClickRemove(e, product)}><h1>Remove from cart</h1></button>
+    }
+    else return <button className='details-text__add-to-cart-button' onClick={e => this.handleClickAdd(e, product)}><h1>Add to cart</h1></button>
   }
 
   render() {
+    var product = this.state
     return (
       <div className="main">
         <div className="product-detail">
@@ -57,7 +75,7 @@ class Product extends Component {
               <p className="details-text__desc">
                 {this.state.desc}
               </p>
-              <button className="details-text__add-to-cart-button" onClick={this.handleClick}><h1>Add To Cart</h1></button>
+              {this.cartAction(product)}
             </div>
           </div>
 
@@ -67,4 +85,4 @@ class Product extends Component {
   }
 }
 
-export { Product }
+export { ProductDetail }
