@@ -52,7 +52,7 @@ class FilterList extends Component {
     var self = this
     return <div className='product-filter-list'>
     {/* render each filter category */}
-    {this.props.filters.map(function(filter) {
+    {this.props.filters.map(filter => {
       return (
         <Filter key={filter.name} category={filter.name} filter={filter} brand={self.props.brand} price={self.props.price} setFilters={self.props.setFilters}/>
       )
@@ -88,7 +88,7 @@ class Filter extends Component {
       <ul key={filter.name}>
         <h4>{filter.name}</h4>
         {/* render each filter within category */}
-        {filter.values.map(function(value) {
+        {filter.values.map(value => {
           return (
             <li key={value}>
               <label htmlFor={value}>
@@ -125,55 +125,60 @@ class ProductList extends Component {
   filterProducts() {
     var self = this
     var products = this.props.products
-
-    // loop through products, create new array of relevant products
+    var brandFilters = self.props.brand
+    var priceFilters = self.props.price
+    var hasBrandFilter = self.props.brand.length
+    var hasPriceFilter = self.props.price.length
 
     return (
       products.map(
-        function(product) {
+        product => {
+          var displayProduct = <Product key={product.image.slice(0,-4)} product={product} addToCart={self.props.addToCart}/>
+
           // no filters
-          if (!self.props.brand[0] && !self.props.price[0]) {
-            return <Product key={product.image.slice(0,-4)} product={product} addToCart={self.props.addToCart}/>
+          if (!hasBrandFilter && !hasPriceFilter) {
+            return displayProduct
           }
-          // with brand filter only
-          if (self.props.brand.indexOf(product.brand) !== -1 && !self.props.price[0]) {
-            return <Product key={product.image.slice(0,-4)} product={product} addToCart={self.props.addToCart}/>
+          // brand filter only
+          if (brandFilters.indexOf(product.brand) > -1 && !hasPriceFilter) {
+            return displayProduct
           }
-          // with price filter only
-          if (self.props.price[0] && !self.props.brand[0]) {
-            // map through price filters
+          // price filter only
+          if (hasPriceFilter && !hasBrandFilter) {
+            // loop through price filters
             return (
-              self.props.price.map(
-                function(price) {
+              priceFilters.map(
+                price => {
                   var range = price.split('-')
-                  console.log(range)
-                  // return product with price in range
+                  // display product with price within range
                   if (range[0] < product.price && product.price < range[1]) {
-                    return <Product key={product.image.slice(0,-4)} product={product} addToCart={self.props.addToCart}/>
+                    return displayProduct
                   }
+                  return true
                 }
               )
             )
           }
-          // both brand and price filters applied
-          if (self.props.brand[0] && self.props.price[0]) {
-            console.log("Double filters activated!")
-            // filter by brand
-            if (self.props.brand.indexOf(product.brand) !== -1) {
-              // filter by price
+          // both brand and price filters
+          if (hasBrandFilter && hasPriceFilter) {
+            // first filter by brand
+            if (brandFilters.indexOf(product.brand) !== -1) {
+              // then filter by price
               return (
-                self.props.price.map(
-                  function(price) {
+                priceFilters.map(
+                  price => {
                     var range = price.split('-')
-                    // return product with price in range
+                    // display product with price within range
                     if (range[0] < product.price && product.price < range[1]) {
-                      return <Product key={product.image.slice(0,-4)} product={product} addToCart={self.props.addToCart}/>
+                      return displayProduct
                     }
+                    return true
                   }
                 )
               )
             }
           }
+          return true
         }
       )
     )
@@ -182,7 +187,6 @@ class ProductList extends Component {
   render() {
     return (
       <div className="product-list">
-
         {this.filterProducts()}
       </div>
     )
@@ -207,7 +211,7 @@ class Product extends Component {
     return (
       <div key={product.image.slice(0,-4)}>
         <Link to={`/product/${product.image.slice(0,-4)}`}>
-        <div className='product-list__card'>
+        <div className='product'>
           <div className='product-info'>
             <img src={require('./img/' + product.image)} alt='product' />
             <span className='product-info__name'>{product.name}</span>
