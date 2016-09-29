@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router'
-import update from 'react-addons-update'
+// import update from 'react-addons-update'
 import './browse.css'
 
 /* Browse */
@@ -10,26 +10,49 @@ class Browse extends Component {
   constructor() {
     super()
     this.state = {
-      activeFilters: []
+      brand: [],
+      price: []
     }
     this.setFilters = this.setFilters.bind(this)
-    this.addFilterCategory = this.addFilterCategory.bind(this)
+    // this.addFilterCategory = this.addFilterCategory.bind(this)
   }
 
-  addFilterCategory(filterCategory) {
-    console.log('Add filter category running ' + filterCategory)
+  // // initiates filter category arrays to activeFilters object
+  // addFilterCategory(filterCategory) {
+  //   var activeFilters = this.state.activeFilters
+  //   var existingCategory = Object.keys(activeFilters)[0]
+  //   // initiate first filter category
+  //  if (!existingCategory) {
+  //    console.log("I'm first! " + filterCategory)
+  //     this.setState({
+  //       activeFilters: {
+  //         [filterCategory] : []
+  //       }
+  //     })
+  //     console.log("My value " + activeFilters[filterCategory])
+  //   }
+  //   // find out first existing filter category to merge with
+  //   else if (existingCategory) {
+  //     console.log("I was first! " + existingCategory)
+  //     var updatedActiveFilters = update(activeFilters, {$merge: {
+  //       [existingCategory]: activeFilters[existingCategory],
+  //       [filterCategory]: []}
+  //     })
+  //     this.setState({activeFilters: updatedActiveFilters})
+  //   }
+  // }
 
-  }
-
-  setFilters(filters) {
-    this.setState({activeFilters: filters})
-    console.log('active filters: ' + this.state.activeFilters)
+  // add active filters to relevant category in activeFilters
+  setFilters(category, filters) {
+    this.setState({ [category] : filters
+    })
+    console.log(`Filter by ${category}: ${this.state[category]}`)
   }
 
   render() {
     return (
       <div className='main'>
-        <FilterListContainer filters={this.props.filters} addFilterCategory={this.addFilterCategory} activeFilters={this.state.activeFilters} setFilters={this.setFilters}/>
+        <FilterListContainer filters={this.props.filters} brand={this.state.brand} price={this.state.price} setFilters={this.setFilters}/>
         <ProductListContainer products={this.props.products} addToCart={this.props.addToCart} />
       </div>
     )
@@ -42,7 +65,8 @@ class FilterListContainer extends Component {
   render() {
     return (
       <div className='product-filter-container'>
-        <FilterList filters={this.props.filters} addFilterCategory={this.props.addFilterCategory} activeFilters={this.props.activeFilters} setFilters={this.props.setFilters}/>
+        <FilterList filters={this.props.filters}
+          brand={this.props.brand} price={this.props.price} setFilters={this.props.setFilters}/>
       </div>
     )
   }
@@ -55,7 +79,7 @@ class FilterList extends Component {
     {/* render each filter category */}
     {this.props.filters.map(function(filter) {
       return (
-        <Filter key={filter.name} category={filter.name} filter={filter} addFilterCategory={self.props.addFilterCategory} activeFilters={self.props.activeFilters} setFilters={self.props.setFilters}/>
+        <Filter key={filter.name} category={filter.name} filter={filter} brand={self.props.brand} price={self.props.price} setFilters={self.props.setFilters}/>
       )
     })}</div>
   }
@@ -68,23 +92,24 @@ class Filter extends Component {
     this.handleChange = this.handleChange.bind(this)
   }
 
+  // // initiates filter categories in activeFilters state
+  // componentWillMount() {
+  //   var filterCategory = this.props.category
+  //   this.props.addFilterCategory(filterCategory)
+  // }
+
   handleChange(event) {
-    var activeFilters = this.props.activeFilters
+    var category = this.props.category
     var filterValue = event.target.value
     var isChecked = event.target.checked
     if (isChecked) {
-      activeFilters.push(filterValue)
+      this.props[category].push(filterValue)
     }
     else if (!isChecked) {
-      activeFilters.splice(activeFilters.indexOf(filterValue), 1)
+      this.props[category].splice(this.props[category].indexOf(filterValue), 1)
     }
-    this.props.setFilters(activeFilters)
-    console.log(this.props.category)
-  }
-
-  componentWillMount() {
-    var filterCategory = this.props.category
-    this.props.addFilterCategory(filterCategory)
+    // pass in category and new value array
+    this.props.setFilters(category, this.props[category])
   }
 
   render() {
