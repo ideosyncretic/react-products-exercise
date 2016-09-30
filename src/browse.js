@@ -220,8 +220,8 @@ class Product extends Component {
   render() {
     var product = this.props.product
     return (
-      <div className='product' key={product.image.slice(0,-4)}>
-        <Link to={`/product/${product.image.slice(0,-4)}`}>
+      <div className='product' key={product.id}>
+        <Link to={`/product/${product.id}`}>
         <div className='product-content'>
           <div className='product-info'>
             <img src={require('./img/' + product.image)} alt='product' />

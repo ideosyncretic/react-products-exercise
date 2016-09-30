@@ -8,12 +8,12 @@ class ProductDetail extends Component {
       this._findProduct = this._findProduct.bind(this)
       this.cartAction = this.cartAction.bind(this)
       this.state = {
-        productId: this.props.params.productId,
+        id: this.props.params.url,
         name: '',
         price: '',
         measurement: '',
         desc: '',
-        image: ''
+        image: '',
       }
   }
 
@@ -22,16 +22,17 @@ class ProductDetail extends Component {
   }
 
   _findProduct() {
-    var currentProduct = this.state.productId
-    var result = dataSample.products.find(function(product) {
-      return ( product.image === (currentProduct + '.jpg') )
+    var currentProduct = this.state.id
+    var result = this.props.products.find(function(product) {
+      return ( product.id === (currentProduct) )
     })
     this.setState({
       name: result.name,
       price: result.price,
       measurement: result.measurement,
       desc: result.desc,
-      image: result.image
+      image: result.image,
+      id: result.id
     })
   }
 
