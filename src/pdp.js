@@ -23,7 +23,7 @@ class ProductDetail extends Component {
 
   _findProduct() {
     var currentProduct = this.state.productId
-    var result = this.props.products.find(function(product) {
+    var result = dataSample.products.find(function(product) {
       return ( product.image === (currentProduct + '.jpg') )
     })
     this.setState({
@@ -46,10 +46,19 @@ class ProductDetail extends Component {
   }
 
   cartAction(product) {
-    if (this.props.cart.indexOf(product) > -1) {
+    if (this.props.cart.findIndex(findItem) > -1) {
       return <button className='details-text__add-to-cart-button' onClick={e => this.handleClickRemove(e, product)}><h1>Remove from cart</h1></button>
     }
-    else return <button className='details-text__add-to-cart-button' onClick={e => this.handleClickAdd(e, product)}><h1>Add to cart</h1></button>
+    else {
+      return <button className='details-text__add-to-cart-button' onClick={e => this.handleClickAdd(e, product)}><h1>Add to cart</h1></button>
+    }
+
+    function findItem (item) {
+      // using unique image names sans suffix as makeshift product id
+      if (item.image.slice(0,-4) === product.image.slice(0,-4) && item.name === product.name) {
+        return item
+      }
+    }
   }
 
   render() {

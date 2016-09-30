@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { IndexLink, Link } from 'react-router'
-import $ from 'jquery'
+import dataSample from './products.json'
 import './App.css'
 import { Browse } from './browse'
 import { Cart } from './cart'
@@ -18,21 +18,32 @@ class App extends Component {
     this.removeFromCart = this.removeFromCart.bind(this)
   }
 
-  // takes a product item object
+  // function takes a product object
   addToCart(itemAdded){
-    this.setState((state) => ({ cart: state.cart.concat( itemAdded )}))
-    console.log(this.state.cart)
-    console.log(itemAdded.name + ' added to cart!')
+    // adds only if not already present in cart
+    if (this.state.cart.findIndex(findItem) === -1) {
+      this.setState((state) => ({ cart: state.cart.concat( itemAdded )}))
+      console.log(this.state.cart)
+      console.log(itemAdded.name + ' added to cart!')
+    }
+
+    function findItem (item) {
+      // using unique image names sans suffix as makeshift product id
+      if (item.image.slice(0,-4) === itemAdded.image.slice(0,-4) && item.name === itemAdded.name) {
+        return item
+      }
+    }
   }
 
-  // takes a product item object
+  // function takes a product object
   removeFromCart(itemRemoved){
     var oldCart = this.state.cart // array
     var newCart = this.state.cart.splice(0) // cloned array
     var itemIndex = oldCart.findIndex(findItem)
 
     function findItem (item) {
-    	if (item.name === itemRemoved.name) {
+      // using unique image names sans suffix as makeshift product id
+    	if (item.image.slice(0,-4) === itemRemoved.image.slice(0,-4) && item.name === itemRemoved.name) {
     		return item
     	}
     }
@@ -44,16 +55,26 @@ class App extends Component {
   }
 
   componentWillMount() {
-    $.ajax({
-      url: "https://raw.githubusercontent.com/sprazzeus/react-products-exercise/development/src/products.json",
-      dataType: 'json',
-      success: function(data) {
-        this.setState({
-          filters: data.filters,
-          products: data.products
-        });
-      }.bind(this)
-    });
+    var filterArray = []
+    var productArray = []
+    var self = this
+
+    // set filters from local json as app state
+    dataSample.filters.map(
+      function(filter) {
+        filterArray.push(filter)
+        self.setState({filters: filterArray})
+        return true
+      }
+    )
+    // set products form local json as app state
+    dataSample.products.map(
+      function(product) {
+        productArray.push(product)
+        self.setState({products: productArray})
+        return true
+      }
+    )
   }
 
   render () {

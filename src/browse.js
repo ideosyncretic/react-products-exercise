@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router'
-// import update from 'react-addons-update'
 import './browse.css'
 
 class Browse extends Component {
@@ -118,6 +117,7 @@ class ProductList extends Component {
 
   filterProducts() {
     var self = this
+    // readable variables
     var products = this.props.products
     var brandFilters = self.props.brand
     var priceFilters = self.props.price
@@ -127,19 +127,26 @@ class ProductList extends Component {
     return (
       products.map(
         product => {
+          // for rendering Product component
           var displayProduct = <Product key={product.image.slice(0,-4)} product={product} cart={self.props.cart} addToCart={self.props.addToCart} removeFromCart={this.props.removeFromCart}/>
+
+          // finds products with matching brand
           var filterByBrand = brandFilters.indexOf(product.brand) > -1
+
+          // finds products with matching price ranges
           var filterByPrice = priceFilters.map(
               price => {
+                // separate lower and upper limit
                 var range = price.split('-')
-                // display product with price within range
-                if (range[0] < product.price && product.price < range[1]) {
+                // display product within range (inclusive)
+                if (range[0] <= product.price && product.price <= range[1]) {
                   return displayProduct
                 }
                 return true
               }
             )
 
+          // decision tree
           if (!hasBrandFilter && !hasPriceFilter) {
             return displayProduct
           }
@@ -187,10 +194,19 @@ class Product extends Component {
   }
 
   cartAction(product) {
-    if (this.props.cart.indexOf(product) > -1) {
+    if (this.props.cart.findIndex(findItem) > -1) {
       return <button className='product-cta__add-to-cart-button' onClick={e => this.handleClickRemove(e, product)}>Remove from cart</button>
     }
-    else return <button className='product-cta__add-to-cart-button' onClick={e => this.handleClickAdd(e, product)}>Add to cart</button>
+    else {
+      return <button className='product-cta__add-to-cart-button' onClick={e => this.handleClickAdd(e, product)}>Add to cart</button>
+    }
+
+    function findItem (item) {
+      // using unique image names sans suffix as makeshift product id
+      if (item.image.slice(0,-4) === product.image.slice(0,-4) && item.name === product.name) {
+        return item
+      }
+    }
   }
 
   render() {
