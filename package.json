@@ -1,7 +1,6 @@
 {
   "name": "products-app",
   "version": "0.0.1",
-  "homepage": "http://sprazzeus.github.io/react-products-exercise",
   "private": true,
   "devDependencies": {
     "react-scripts": "0.4.3"
@@ -9,6 +8,7 @@
   "dependencies": {
     "jquery": "^3.1.0",
     "react": "^15.3.1",
+    "react-addons-update": "^15.3.2",
     "react-dom": "^15.3.1",
     "react-router": "^2.8.1"
   },

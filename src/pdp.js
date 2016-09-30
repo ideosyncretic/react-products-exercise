@@ -2,17 +2,18 @@ import React, { Component } from 'react'
 import './pdp.css'
 import dataSample from './products.json'
 
-class Product extends Component {
+class ProductDetail extends Component {
   constructor(props) {
       super(props);
-      this._findProduct = this._findProduct.bind(this);
+      this._findProduct = this._findProduct.bind(this)
+      this.cartAction = this.cartAction.bind(this)
       this.state = {
-        productId: this.props.params.productId,
+        id: this.props.params.url,
         name: '',
         price: '',
         measurement: '',
         desc: '',
-        image: ''
+        image: '',
       }
   }
 
@@ -21,20 +22,47 @@ class Product extends Component {
   }
 
   _findProduct() {
-    var currentProduct = this.state.productId
-    var result = dataSample.products.find(function(product) {
-      return ( product.image === (currentProduct + '.jpg') )
+    var currentProduct = this.state.id
+    var result = this.props.products.find(function(product) {
+      return ( product.id === (currentProduct) )
     })
     this.setState({
       name: result.name,
       price: result.price,
       measurement: result.measurement,
       desc: result.desc,
-      image: result.image
+      image: result.image,
+      id: result.id
     })
   }
 
+  handleClickAdd(e, product){
+    e.preventDefault()
+    this.props.addToCart(product)
+  }
+
+  handleClickRemove(e, product){
+    e.preventDefault()
+    this.props.removeFromCart(product)
+  }
+
+  cartAction(product) {
+    if (this.props.cart.findIndex(findItem) > -1) {
+      return <button className='details-text__add-to-cart-button' onClick={e => this.handleClickRemove(e, product)}><h1>Remove from cart</h1></button>
+    }
+    else {
+      return <button className='details-text__add-to-cart-button' onClick={e => this.handleClickAdd(e, product)}><h1>Add to cart</h1></button>
+    }
+
+    function findItem (item) {
+      if (item.id === product.id) {
+        return item
+      }
+    }
+  }
+
   render() {
+    var product = this.state
     return (
       <div className="main">
         <div className="product-detail">
@@ -51,7 +79,7 @@ class Product extends Component {
               <p className="details-text__desc">
                 {this.state.desc}
               </p>
-              <button className="details-text__add-to-cart-button"><h1>Add To Cart</h1></button>
+              {this.cartAction(product)}
             </div>
           </div>
 
@@ -61,4 +89,4 @@ class Product extends Component {
   }
 }
 
-export { Product }
+export { ProductDetail }

@@ -19,7 +19,11 @@
   flex-flow: wrap;
 }
 
-.product-list__card {
+.product {
+  display: flex
+}
+
+.product-content {
   display: flex;
   flex-direction: column;
   align-items: center;

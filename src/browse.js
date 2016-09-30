@@ -1,86 +1,107 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router'
-import $ from 'jquery'
 import './browse.css'
 
-/* Browse */
-
 class Browse extends Component {
-  constructor(props) {
-    super(props);
+
+  constructor() {
+    super()
     this.state = {
-      filters: [],
-      products: []
+      brand: [],
+      price: []
     }
+    this.setFilters = this.setFilters.bind(this)
   }
 
-  /* fetch data */
-  componentWillMount() {
-    $.ajax({
-      url: "https://raw.githubusercontent.com/sprazzeus/react-products-exercise/development/src/products.json",
-      dataType: 'json',
-      success: function(data) {
-        this.setState({
-          filters: data.filters,
-          products: data.products
-        });
-      }.bind(this)
-    });
+  setFilters(category, filters) {
+    this.setState({ [category] : filters
+    })
   }
 
   render() {
     return (
       <div className='main'>
-        <ProductFilterContainer filters={this.state.filters}/>
-        <ProductListContainer products={this.state.products} addToCart={this.props.addToCart} />
+        <FilterListContainer filters={this.props.filters} brand={this.state.brand} price={this.state.price} setFilters={this.setFilters}/>
+        <ProductListContainer products={this.props.products} cart={this.props.cart}
+        brand={this.state.brand} price={this.state.price}
+        addToCart={this.props.addToCart} removeFromCart={this.props.removeFromCart} />
       </div>
     )
   }
 }
 
-/* Product Filter */
-
-class ProductFilterContainer extends Component {
+class FilterListContainer extends Component {
   render() {
     return (
       <div className='product-filter-container'>
-        <ProductFilterList filters={this.props.filters} />
+        <FilterList filters={this.props.filters}
+          brand={this.props.brand} price={this.props.price} setFilters={this.props.setFilters}/>
       </div>
     )
   }
 }
 
-class ProductFilterList extends Component {
+class FilterList extends Component {
   render() {
+    var self = this
     return <div className='product-filter-list'>
     {/* render each filter category */}
-    {this.props.filters.map(function(filter) {
+    {this.props.filters.map(filter => {
       return (
-        <ul key={filter.name}>
-          <h4>{filter.name}</h4>
-          {/* render each filter within category */}
-          {filter.values.map(function(value) {
-            return (
-              <li key={value}>
-                <label htmlFor={'option' + value}>
-                  <input id={'option' + value} type='checkbox' name='field' value='option'/>{value}
-                </label>
-              </li>
-            )
-          })}
-        </ul>
+        <Filter key={filter.name} category={filter.name} filter={filter} brand={self.props.brand} price={self.props.price} setFilters={self.props.setFilters}/>
       )
     })}</div>
   }
 }
 
-/* Product List (filterable) */
+class Filter extends Component {
+
+  constructor() {
+    super()
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleChange(event) {
+    var category = this.props.category
+    var filterValue = event.target.value
+    var isChecked = event.target.checked
+    if (isChecked) {
+      this.props[category].push(filterValue)
+    }
+    else if (!isChecked) {
+      this.props[category].splice(this.props[category].indexOf(filterValue), 1)
+    }
+    // pass in category and new value array
+    this.props.setFilters(category, this.props[category])
+  }
+
+  render() {
+    var filter = this.props.filter
+    var handleChange = this.handleChange
+    return (
+      <ul key={filter.name}>
+        <h4>{filter.name}</h4>
+        {/* render each filter within category */}
+        {filter.values.map(value => {
+          return (
+            <li key={value}>
+              <label htmlFor={value}>
+                <input id={value} type='checkbox' name='field' value={value} onChange={handleChange}/>{value}
+              </label>
+            </li>
+          )
+        })}
+      </ul>
+    )
+  }
+}
 
 class ProductListContainer extends Component {
   render() {
     return (
       <div className='product-list-container'>
-        <ProductList products={this.props.products} addToCart={this.props.addToCart}/>
+        <ProductList products={this.props.products} cart={this.props.cart}
+          brand={this.props.brand} price={this.props.price} addToCart={this.props.addToCart} removeFromCart={this.props.removeFromCart}/>
       </div>
     )
   }
@@ -88,44 +109,130 @@ class ProductListContainer extends Component {
 
 class ProductList extends Component {
 
-  _addItem(event){
-    event.preventDefault()
-    alert('Item added!')
+  constructor() {
+    super()
+    this.filterProducts = this.filterProducts.bind(this)
+  }
+
+  filterProducts() {
+    var self = this
+    // readable variables
+    var products = this.props.products
+    var brandFilters = self.props.brand
+    var priceFilters = self.props.price
+    var hasBrandFilter = self.props.brand.length
+    var hasPriceFilter = self.props.price.length
+
+    return (
+      products.map(
+        product => {
+          // for rendering Product component
+          var displayProduct = <Product key={product.id} product={product} cart={self.props.cart} addToCart={self.props.addToCart} removeFromCart={this.props.removeFromCart}/>
+
+          // finds products with matching brand
+          var filterByBrand = brandFilters.indexOf(fixCase(product.brand)) > -1
+
+          function fixCase(value) {
+            if (value === value.toUpperCase() || value === value.toLowerCase) {
+              value = value.toLowerCase()
+              return value.charAt(0).toUpperCase() + value.slice(1)
+            }
+            else return value
+          }
+
+          // finds products with matching price ranges
+          var filterByPrice = priceFilters.map(
+              price => {
+                // separate lower and upper limit
+                var range = price.split('-')
+                // display product within range (inclusive)
+                if (range[0] <= product.price && product.price <= range[1]) {
+                  return displayProduct
+                }
+                return true
+              }
+            )
+
+          // decision tree
+          if (!hasBrandFilter && !hasPriceFilter) {
+            return displayProduct
+          }
+          if (filterByBrand && !hasPriceFilter) {
+            return displayProduct
+          }
+          if (hasPriceFilter && !hasBrandFilter) {
+            return filterByPrice
+          }
+          if (hasBrandFilter && hasPriceFilter) {
+            if (filterByBrand) {
+              return filterByPrice
+            }
+          }
+          return true
+        }
+      )
+    )
   }
 
   render() {
-    var self = this
     return (
       <div className="product-list">
-        {this.props.products.map(
-          function (product) {
-            return (
-             <Product key={product.image.slice(0,-4)} details={product} addItem={self._addItem} addToCart={self.props.addToCart}/>
-            )
-          })
-        }
+        {this.filterProducts()}
       </div>
     )
   }
 }
 
 class Product extends Component {
+
+  constructor(props) {
+    super(props)
+    this.cartAction = this.cartAction.bind(this)
+  }
+
+  handleClickAdd(e, product){
+    e.preventDefault()
+    this.props.addToCart(this.props.product)
+  }
+
+  handleClickRemove(e, product){
+    e.preventDefault()
+    this.props.removeFromCart(this.props.product)
+  }
+
+  cartAction(product) {
+    if (this.props.cart.findIndex(findItem) > -1) {
+      return <button className='product-cta__add-to-cart-button' onClick={e => this.handleClickRemove(e, product)}>Remove from cart</button>
+    }
+    else {
+      return <button className='product-cta__add-to-cart-button' onClick={e => this.handleClickAdd(e, product)}>Add to cart</button>
+    }
+
+    function findItem (item) {
+      if (item.id === product.id) {
+        return item
+      }
+    }
+  }
+
   render() {
-    var details = this.props.details
-    var addItem = this.props.addItem
+    var product = this.props.product
     return (
-      <Link to={`/product/${details.image.slice(0,-4)}`}>
-      <div className='product-list__card' key={details.image.slice(0,-4)}>
-        <div className='product-info'>
-          <img src={require('./img/' + details.image)} alt='product' />
-          <span className='product-info__name'>{details.name}</span>
-          <span className='product-info__measurement'>{details.measurement}</span>
+      <div className='product' key={product.id}>
+        <Link to={`/product/${product.id}`}>
+        <div className='product-content'>
+          <div className='product-info'>
+            <img src={require('./img/' + product.image)} alt='product' />
+            <span className='product-info__name'>{product.name}</span>
+            <span className='product-info__measurement'>{product.measurement}</span>
+          </div>
+          <div className='product-cta'>
+            <span className='product-cta__price'><strong>${product.price}</strong></span>
+            {this.cartAction(product)}
+          </div>
         </div>
-        <div className='product-cta'>
-          <span className='product-cta__price'><strong>${details.price}</strong></span>
-          <button className='product-cta__add-to-cart-button' onClick={addItem}>Add to Cart</button>
-        </div>
-      </div></Link>
+        </Link>
+      </div>
     )
   }
 }
