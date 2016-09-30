@@ -131,7 +131,15 @@ class ProductList extends Component {
           var displayProduct = <Product key={product.image.slice(0,-4)} product={product} cart={self.props.cart} addToCart={self.props.addToCart} removeFromCart={this.props.removeFromCart}/>
 
           // finds products with matching brand
-          var filterByBrand = brandFilters.indexOf(product.brand) > -1
+          var filterByBrand = brandFilters.indexOf(fixCase(product.brand)) > -1
+
+          function fixCase(value) {
+            if (value === value.toUpperCase() || value === value.toLowerCase) {
+              value = value.toLowerCase()
+              return value.charAt(0).toUpperCase() + value.slice(1)
+            }
+            else return value
+          }
 
           // finds products with matching price ranges
           var filterByPrice = priceFilters.map(

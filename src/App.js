@@ -62,6 +62,26 @@ class App extends Component {
     // set filters from local json as app state
     dataSample.filters.map(
       function(filter) {
+        // temp valueArray for checking against
+        var valueArray = []
+        filter.values.map(function(value) {
+          // fix case
+          function fixCase(value) {
+            if (value === value.toUpperCase() || value === value.toLowerCase()) {
+              value = value.toLowerCase()
+              return value.charAt(0).toUpperCase() + value.slice(1)
+            }
+            else return value
+          }
+          // check against temp array
+          if (valueArray.indexOf(value) === -1) {
+            valueArray.push(fixCase(value))
+          }
+          return true
+        })
+        // use cleaned values
+        filter.values = valueArray
+        // push to final
         filterArray.push(filter)
         self.setState({filters: filterArray})
         return true
