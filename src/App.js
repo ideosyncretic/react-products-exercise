@@ -69,6 +69,7 @@ class App extends Component {
       var newCart = this.state.cart.splice(0)
       newCart.push(itemAdded)
       this.setState({cart: newCart})
+      console.log('added index '+newCart.findIndex(findItem))
       console.log(itemAdded.name + ' added to cart!')
     }
 
@@ -83,15 +84,10 @@ class App extends Component {
   removeFromCart(itemRemoved){
     var oldCart = this.state.cart // array
     var newCart = this.state.cart.splice(0) // cloned array
-    var itemIndex = oldCart.findIndex(findItem)
 
-    function findItem (item) {
-    	if (item.id === itemRemoved.id) {
-    		return item
-    	}
-    }
-
-    newCart.splice(itemIndex, 1) // remove item from clone array
+    newCart = newCart.filter(function(item) {
+      return item.id !== itemRemoved.id
+    }) // remove item from clone array
 
     this.setState({cart: newCart}) // submit new cart array
     console.log(itemRemoved.name + ' removed from cart!')
