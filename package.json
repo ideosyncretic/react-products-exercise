@@ -1,6 +1,7 @@
 {
   "name": "products-app",
   "version": "0.0.1",
+  "homepage": "http://sprazzeus.github.io/react-products-exercise",
   "private": true,
   "devDependencies": {
     "react-scripts": "0.4.3"
