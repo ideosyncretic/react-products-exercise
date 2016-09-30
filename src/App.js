@@ -73,8 +73,7 @@ class App extends Component {
     }
 
     function findItem (item) {
-      // using unique image names sans suffix as makeshift product id
-      if (item.image.slice(0,-4) === itemAdded.image.slice(0,-4) && item.name === itemAdded.name) {
+      if (item.id === itemAdded.id) {
         return item
       }
     }
@@ -87,8 +86,7 @@ class App extends Component {
     var itemIndex = oldCart.findIndex(findItem)
 
     function findItem (item) {
-      // using unique image names sans suffix as makeshift product id
-    	if (item.image.slice(0,-4) === itemRemoved.image.slice(0,-4) && item.name === itemRemoved.name) {
+    	if (item.id === itemRemoved.id) {
     		return item
     	}
     }

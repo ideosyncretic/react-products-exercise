@@ -55,8 +55,7 @@ class ProductDetail extends Component {
     }
 
     function findItem (item) {
-      // using unique image names sans suffix as makeshift product id
-      if (item.image.slice(0,-4) === product.image.slice(0,-4) && item.name === product.name) {
+      if (item.id === product.id) {
         return item
       }
     }

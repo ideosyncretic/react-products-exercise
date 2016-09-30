@@ -128,7 +128,7 @@ class ProductList extends Component {
       products.map(
         product => {
           // for rendering Product component
-          var displayProduct = <Product key={product.image.slice(0,-4)} product={product} cart={self.props.cart} addToCart={self.props.addToCart} removeFromCart={this.props.removeFromCart}/>
+          var displayProduct = <Product key={product.id} product={product} cart={self.props.cart} addToCart={self.props.addToCart} removeFromCart={this.props.removeFromCart}/>
 
           // finds products with matching brand
           var filterByBrand = brandFilters.indexOf(fixCase(product.brand)) > -1
@@ -210,8 +210,7 @@ class Product extends Component {
     }
 
     function findItem (item) {
-      // using unique image names sans suffix as makeshift product id
-      if (item.image.slice(0,-4) === product.image.slice(0,-4) && item.name === product.name) {
+      if (item.id === product.id) {
         return item
       }
     }
