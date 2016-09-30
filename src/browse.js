@@ -16,7 +16,6 @@ class Browse extends Component {
   setFilters(category, filters) {
     this.setState({ [category] : filters
     })
-    console.log(`Filter by ${category}: ${this.state[category]}`)
   }
 
   render() {

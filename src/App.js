@@ -69,8 +69,6 @@ class App extends Component {
       var newCart = this.state.cart.splice(0)
       newCart.push(itemAdded)
       this.setState({cart: newCart})
-      console.log('added index '+newCart.findIndex(findItem))
-      console.log(itemAdded.name + ' added to cart!')
     }
 
     function findItem (item) {
@@ -90,7 +88,6 @@ class App extends Component {
     }) // remove item from clone array
 
     this.setState({cart: newCart}) // submit new cart array
-    console.log(itemRemoved.name + ' removed from cart!')
   }
 
   render () {
