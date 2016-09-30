@@ -54,6 +54,7 @@ class App extends Component {
     // set products form local json as app state
     dataSample.products.map(
       function(product) {
+        product.id = product.image.slice(0,-4) + new Date().getTime()
         productArray.push(product)
         self.setState({products: productArray})
         return true
